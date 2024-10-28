@@ -4,16 +4,18 @@ from PIL import Image
 
 from util import get_limits
 
-yellow = [0, 225, 225] # Yellow color in BGR colors
+red = [0, 0, 255] # Red color in BGR colors
 
 cap = cv.VideoCapture(0)
 while True:
     ret, frame = cap.read()
+    if not ret:
+        break
 
     # Convert BGR Color to RSV color
     hsvImage = cv.cvtColor(frame, cv.COLOR_BGR2HSV)
 
-    lowerLimits, upperLimits = get_limits(color=yellow)
+    lowerLimits, upperLimits = get_limits(color=red)
 
     # Getting the mask of all the pixels that belongs to the color we want to detect
     mask = cv.inRange(hsvImage, lowerLimits, upperLimits)
@@ -29,7 +31,7 @@ while True:
 
 
     cv.imshow('frame', frame)
-    
+
     if cv.waitKey(1) & 0xFF == ord('q'):
         break
 
